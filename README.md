@@ -63,12 +63,23 @@ $ wpa_cli -i p2p-dev-wlan0 p2p_peers
 $ wpa_cli -i p2p-dev-wlan0 p2p_peer <MAC_ADDRESS>
 ```
 
-6. Accept MAC Address
+6. Accept MAC Address (Several Ways) [2]
+For Push Button:
 ```
 $ wpa_cli -ip2p-dev-wlan0 p2p_connect <MAC_ADDRESS> pbc go_intent=15
 ```
+Pin:
+```
+$ wpa_cli -ip2p-dev-wlan0 p2p_connect <MAC_ADDRESS> pin go_intent=15
+```
+Specific Pin:
+```
+$ wpa_cli -ip2p-dev-wlan0 p2p_connect <MAC_ADDRESS> <pin> go_intent=15
+```
+
 
 Note: These instructions were run on a raspberry pi running Raspbian. These steps may differ depending on hardware and distro.
 
 ## Sources
 [1] https://raspberrypi.stackexchange.com/questions/94171/setting-up-wifi-direct-wifi-p2p-and-dhcp-server
+[2] https://w1.fi/cgit/hostap/plain/wpa_supplicant/README-P2P
