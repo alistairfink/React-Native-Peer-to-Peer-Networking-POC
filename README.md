@@ -2,22 +2,18 @@
 
 ## Device Setup (Device App Will Communicate With) [1]
 ### Setup
-1. ~~Install 'rng-tools'
-```
-
-```
-2. Disable Classic Networking
+1. Disable Classic Networking
 ```
 $ sudo systemctl mask networking.service dhcpcd.service
 $ sudo mv /etc/network/interfaces /etc/network/interfaces-old
 $ sudo sed -i '1i resolvconf=NO' /etc/resolvconf.conf
 ```
-3. Enable systemd-networkd
+2. Enable systemd-networkd
 ```
 $ sudo systemctl enable systemd-networkd.service systemd-resolved.service
 $ sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 ```
-4. Create Direct Wifi Supplicant File Called ```/etc/wpa_supplicant/wpa_supplicant-wlan0.conf``` with contents below.
+3. Create Direct Wifi Supplicant File Called ```/etc/wpa_supplicant/wpa_supplicant-wlan0.conf``` with contents below.
 Note: Fill in country and device name. Device name must begin with "DIRECT-"
 ```
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
@@ -26,13 +22,13 @@ country=CA
 device_name=DIRECT-RasPi1
 p2p_go_ht40=1
 ```
-5. Give proper permissions to ```wpa_supplicant-wlan0.conf``` and enable service.
+4. Give proper permissions to ```wpa_supplicant-wlan0.conf``` and enable service.
 ```
 $ sudo chmod 600 /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
 $ sudo systemctl disable wpa_supplicant.service
 $ sudo systemctl enable wpa_supplicant@wlan0.service
 ```
-6. Give device a static IP and enable a DHCP server on it. Create a file called ```/etc/systemd/network/12-p2p-wlan0.network``` with contents below.
+5. Give device a static IP and enable a DHCP server on it. Create a file called ```/etc/systemd/network/12-p2p-wlan0.network``` with contents below.
 ```
 [Match]
 Name=p2p-wlan0-*
@@ -40,7 +36,7 @@ Name=p2p-wlan0-*
 Address=192.168.4.1/24
 DHCPServer=yes
 ```
-7. Reboot device.
+6. Reboot device.
 
 ### Usage
 1. Confirm device was setup properly by running the command ```ls /var/run/wpa_supplicant1```. The following should show up.
